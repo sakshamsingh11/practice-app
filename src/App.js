@@ -1,26 +1,18 @@
-import React, { Component, Suspense } from 'react';
-import { Link, Route } from 'react-router-dom';
-import Users from './containers/Users';
-import asyncComponent from './hoc/asyncComponent'; // used react lazy instead of this
+import React, { Fragment } from 'react';
+import { renderRoutes } from "./routes"
+import Header from 'src/components/Header'
+import Footer from 'src/components/Footer'
 
-const AsyncPizza = React.lazy(() => import('./containers/Pizza.js')); //Lazy loading
-
-class App extends Component {
-    render () {
-        return (
+const App = (props) => {
+    return (
+        <Fragment>
+            <Header></Header>
             <div>
-                <div>
-                    <Link to="/">Users</Link> | <Link to="/pizza">Pizza</Link>
-                </div>
-                <div>
-                    <Route path="/" exact component={Users} />
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <Route path="/pizza" component={AsyncPizza} />
-                    </Suspense>
-                </div>
+                {renderRoutes()}
             </div>
-        );
-    }
+            <Footer></Footer>
+        </Fragment>
+    );
 }
 
 export default App;

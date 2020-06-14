@@ -1,10 +1,17 @@
 const path = require('path');
+const fs = require('fs')
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const appDirectory = fs.realpathSync(process.cwd())
+const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)
 
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
     entry: './src/index.js',
+    devServer: {
+        historyApiFallback: true
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
@@ -12,7 +19,10 @@ module.exports = {
         publicPath: ''
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
+        alias: {
+            src: resolveApp('src')
+        }
     },
     module: {
         rules: [
